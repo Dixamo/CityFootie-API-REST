@@ -24,4 +24,15 @@ public class PlayerController {
                         .collect(Collectors.toList())
         );
     }
+
+    @GetMapping(path = "/players")
+    public ResponseEntity<List<PlayerDto>> getPlayerLogin() {
+        return ResponseEntity.ok(
+                playerService
+                        .getAllPlayers()
+                        .stream()
+                        .map(PlayerDto::toDto)
+                        .collect(Collectors.toList())
+        );
+    }
 }
