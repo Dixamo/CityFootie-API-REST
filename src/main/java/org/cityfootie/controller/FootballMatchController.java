@@ -2,6 +2,7 @@ package org.cityfootie.controller;
 
 import org.cityfootie.controller.dto.FootballMatchDto;
 import org.cityfootie.entity.FootballMatch;
+import org.cityfootie.service.FootballMatchService;
 import org.cityfootie.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,9 @@ import java.util.stream.Collectors;
 public class FootballMatchController {
     @Autowired
     private PlayerService playerService;
+
+    @Autowired
+    private FootballMatchService footballMatchService;
 
     @GetMapping(path = "/footballmatches")
     public ResponseEntity<List<FootballMatchDto>> getAllFootballmatches() {
@@ -37,7 +41,7 @@ public class FootballMatchController {
         if (footballMatch != null) {
             return ResponseEntity.ok(FootballMatchDto.toDto(footballMatch));
         } else {
-            //  ResponseEntity.notFound().build();
+
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
