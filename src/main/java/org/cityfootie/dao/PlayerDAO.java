@@ -13,4 +13,6 @@ public interface PlayerDAO extends JpaRepository<Player, Integer> {
     List<Player> findByPasswordIgnoreCase(String password);
 
     Player findByEmailAndPassword(String email, String password);
+
+    boolean existsByEmail(String email);
 }

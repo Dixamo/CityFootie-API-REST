@@ -23,7 +23,7 @@ public class PlayerService {
     }
 
     public boolean registerPlayer(Player player) {
-        if (!playerDAO.existsById(player.getId())) {
+        if (!playerDAO.existsByEmail(player.getEmail())) {
             playerDAO.save(player);
             return true;
         }

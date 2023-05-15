@@ -25,12 +25,12 @@ public class PlayerController {
     public ResponseEntity<PlayerDto> loginPlayer(
             @RequestParam(value = "email", required = false) String  email,
             @RequestParam(value = "password", required = false) String  password) {
-        PlayerDto player = PlayerDto.toDto(playerService.loginPlayer(email, password));
+        Player player = playerService.loginPlayer(email, password);
         if (player != null) {
-            return ResponseEntity.ok(player);
+            return ResponseEntity.ok(PlayerDto.toDto(player));
         }
         else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
