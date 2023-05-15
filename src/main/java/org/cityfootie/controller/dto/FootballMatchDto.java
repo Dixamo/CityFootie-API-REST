@@ -19,7 +19,7 @@ public class FootballMatchDto {
     private Integer id;
 
     @NotBlank
-    private String calle;
+    private String street;
 
     @NotNull
     @Positive
@@ -32,7 +32,7 @@ public class FootballMatchDto {
     public static FootballMatch toEntity(FootballMatchDto dto){
         return new FootballMatch(
                 dto.getId(),
-                dto.getCalle(),
+                dto.getStreet(),
                 dto.getNumberMax(),
                 dto.getNumberPlayers(),
                 new HashSet<>()
@@ -42,7 +42,7 @@ public class FootballMatchDto {
     public static FootballMatchDto toDto(FootballMatch footballMatch){
         return new FootballMatchDto(
                 footballMatch.getId(),
-                footballMatch.getCalle(),
+                footballMatch.getStreet(),
                 footballMatch.getNumberMax(),
                 footballMatch.getNumberPlayers()
         );

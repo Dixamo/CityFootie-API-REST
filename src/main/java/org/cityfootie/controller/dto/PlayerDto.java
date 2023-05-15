@@ -9,7 +9,6 @@ import org.cityfootie.entity.Player;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.util.Date;
 import java.util.HashSet;
 
 @Data
@@ -20,20 +19,14 @@ public class PlayerDto {
     @Positive
     private Integer id;
     @NotBlank
-    @JsonProperty("name_player")
-    private String namePlayer;
+    @JsonProperty("name")
+    private String name;
     @NotBlank
-    @JsonProperty("first_surname")
-    private String firstSurname;
+    @JsonProperty("surnames")
+    private String surnames;
     @NotBlank
-    @JsonProperty("second_surname")
-    private String secondSurname;
-    //@NotBlank
-    @JsonProperty("date_birth")
-    private Date dateBirth;
-    @NotBlank
-    @JsonProperty("name_user")
-    private String nameUser;
+    @JsonProperty("username")
+    private String username;
     @NotBlank
     private String email;
     @NotBlank
@@ -41,27 +34,17 @@ public class PlayerDto {
     private String password;
     @NotNull
     @Positive
-    private int dorsal;
-    @NotBlank
-    @JsonProperty("favorite_player")
-    private String favoritePlayer;
-    @NotBlank
-    @JsonProperty("favorite_team")
-    private String favoriteTeam;
+    private int number;
 
     public static Player toEntity(PlayerDto dto){
         return new Player(
                 dto.getId(),
-                dto.getNamePlayer(),
-                dto.getFirstSurname(),
-                dto.getSecondSurname(),
-                dto.getDateBirth(),
-                dto.getNameUser(),
+                dto.getName(),
+                dto.getSurnames(),
+                dto.getUsername(),
                 dto.getEmail(),
                 dto.getPassword(),
-                dto.getDorsal(),
-                dto.getFavoritePlayer(),
-                dto.getFavoriteTeam(),
+                dto.getNumber(),
                 new HashSet<>()
         );
     }
@@ -69,16 +52,12 @@ public class PlayerDto {
     public static PlayerDto toDto(Player player){
         return new PlayerDto(
                 player.getId(),
-                player.getNamePlayer(),
-                player.getFirstSurname(),
-                player.getSecondSurname(),
-                player.getDateBirth(),
-                player.getNameUser(),
+                player.getName(),
+                player.getSurnames(),
+                player.getUsername(),
                 player.getEmail(),
                 player.getPassword(),
-                player.getDorsal(),
-                player.getFavoritePlayer(),
-                player.getFavoriteTeam()
+                player.getNumber()
         );
     }
 }

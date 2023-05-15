@@ -20,11 +20,11 @@ public class FootballMatch implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "calle")
-    private String calle;
+    @Column(name = "street")
+    private String street;
     @Column(name = "number_max")
     private int numberMax;
-    @Column(name = "number_player")
+    @Column(name = "number_players")
     private int numberPlayers;
     @ManyToMany(mappedBy = "footballMatches")
     private Set<Player> players;

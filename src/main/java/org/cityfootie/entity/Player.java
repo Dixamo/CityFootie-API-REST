@@ -21,26 +21,18 @@ public class Player implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "name_player")
-    private String namePlayer;
-    @Column(name = "first_surname")
-    private String firstSurname;
-    @Column(name = "second_surname")
-    private String secondSurname;
-    @Column(name = "date_birth")
-    private Date dateBirth;
-    @Column(name = "name_user")
-    private String nameUser;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "surnames")
+    private String surnames;
+    @Column(name = "username")
+    private String username;
     @Column(name = "email")
     private String email;
     @Column(name = "pass")
     private String password;
-    @Column(name = "dorsal")
-    private int dorsal;
-    @Column(name = "favorite_player")
-    private String favoritePlayer;
-    @Column(name = "favorite_team")
-    private String favoriteTeam;
+    @Column(name = "number")
+    private int number;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
