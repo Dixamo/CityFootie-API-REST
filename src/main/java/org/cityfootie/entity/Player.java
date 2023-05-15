@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -40,4 +41,11 @@ public class Player implements Serializable {
     private String favoritePlayer;
     @Column(name = "favorite_team")
     private String favoriteTeam;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "footballMatch_player",
+            joinColumns = {@JoinColumn(name = "player")},
+            inverseJoinColumns = {@JoinColumn(name = "footballMatch")})
+    private Set<FootballMatch> footballMatches;
 }

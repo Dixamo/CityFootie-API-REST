@@ -7,13 +7,14 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "football_match")
+@Table(name = "footballmatch")
 public class FootballMatch implements Serializable {
     @Id
     @Column(name = "id")
@@ -25,4 +26,6 @@ public class FootballMatch implements Serializable {
     private int numberMax;
     @Column(name = "number_player")
     private int numberPlayers;
+    @ManyToMany(mappedBy = "footballMatches")
+    private Set<Player> players;
 }

@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.cityfootie.entity.FootballMatch;
-import org.cityfootie.entity.Player;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.util.HashSet;
 
 @Data
 @AllArgsConstructor
@@ -17,11 +17,14 @@ public class FootballMatchDto {
     @NotNull
     @Positive
     private Integer id;
+
     @NotBlank
     private String calle;
+
     @NotNull
     @Positive
     private int numberMax;
+
     @NotNull
     @Positive
     private int numberPlayers;
@@ -31,7 +34,8 @@ public class FootballMatchDto {
                 dto.getId(),
                 dto.getCalle(),
                 dto.getNumberMax(),
-                dto.getNumberPlayers()
+                dto.getNumberPlayers(),
+                new HashSet<>()
         );
     }
 
