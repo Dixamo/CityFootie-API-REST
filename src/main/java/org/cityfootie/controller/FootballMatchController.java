@@ -1,31 +1,39 @@
 package org.cityfootie.controller;
 
 import org.cityfootie.controller.dto.FootballMatchDto;
+import org.cityfootie.controller.dto.PlayerDto;
 import org.cityfootie.entity.FootballMatch;
 import org.cityfootie.service.FootballMatchService;
-import org.cityfootie.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 public class FootballMatchController {
     @Autowired
-    private PlayerService playerService;
-
-    @Autowired
     private FootballMatchService footballMatchService;
+
+    @PostMapping(path = "/footballmatches")
+    public ResponseEntity<Void> createFootballMatch(
+            @Valid @RequestBody FootballMatchDto footballMatchDto
+    ) {
+        if (footballMatchService.createFootballmatch(FootballMatchDto.toEntity(footballMatchDto))) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
 
     @GetMapping(path = "/footballmatches")
     public ResponseEntity<List<FootballMatchDto>> getAllFootballmatches() {
         return ResponseEntity.ok(
-                playerService
+                footballMatchService
                         .getAllFootballmatches()
                         .stream()
                         .map(FootballMatchDto::toDto)
@@ -33,11 +41,24 @@ public class FootballMatchController {
         );
     }
 
-    @GetMapping(path = "/footballmatches/{footballMatchId}")
-    public ResponseEntity<FootballMatchDto> getFlight(
-            @PathVariable("footballMatchId") String footballMatchId
+    @GetMapping(path = "/footballmatchesStreet")
+    public ResponseEntity<FootballMatchDto> getFootballMatchByStreet (
+            @RequestParam(value = "street", required = false) String street
     ) {
-        FootballMatch footballMatch = playerService.getFootballMatch(footballMatchId);
+        FootballMatch footballMatch = footballMatchService.getFootballMatchByStreet(street);
+        if (footballMatch != null) {
+            return ResponseEntity.ok(FootballMatchDto.toDto(footballMatch));
+        } else {
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @GetMapping(path = "/footballmatchesDate")
+    public ResponseEntity<FootballMatchDto> getFootballMatchByDate (
+            @RequestParam(value = "date", required = false) Timestamp date
+    ) {
+        FootballMatch footballMatch = footballMatchService.getFootballMatchByDate(date);
         if (footballMatch != null) {
             return ResponseEntity.ok(FootballMatchDto.toDto(footballMatch));
         } else {

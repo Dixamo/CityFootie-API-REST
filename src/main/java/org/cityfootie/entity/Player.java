@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -29,15 +28,15 @@ public class Player implements Serializable {
     private String username;
     @Column(name = "email")
     private String email;
-    @Column(name = "pass")
+    @Column(name = "password")
     private String password;
     @Column(name = "number")
     private int number;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "footballMatch_player",
+            name = "football_match_player",
             joinColumns = {@JoinColumn(name = "player")},
-            inverseJoinColumns = {@JoinColumn(name = "footballMatch")})
+            inverseJoinColumns = {@JoinColumn(name = "football_match")})
     private Set<FootballMatch> footballMatches;
 }

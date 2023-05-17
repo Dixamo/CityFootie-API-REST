@@ -28,12 +28,14 @@ public class PlayerDto {
     @JsonProperty("username")
     private String username;
     @NotBlank
+    @JsonProperty("email")
     private String email;
     @NotBlank
-    @JsonProperty("pass")
+    @JsonProperty("password")
     private String password;
     @NotNull
     @Positive
+    @JsonProperty("number")
     private int number;
 
     public static Player toEntity(PlayerDto dto){
