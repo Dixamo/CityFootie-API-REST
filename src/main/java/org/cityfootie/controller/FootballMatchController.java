@@ -1,7 +1,6 @@
 package org.cityfootie.controller;
 
 import org.cityfootie.controller.dto.FootballMatchDto;
-import org.cityfootie.controller.dto.PlayerDto;
 import org.cityfootie.entity.FootballMatch;
 import org.cityfootie.service.FootballMatchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class FootballMatchController {
     public ResponseEntity<Void> createFootballMatch(
             @Valid @RequestBody FootballMatchDto footballMatchDto
     ) {
-        if (footballMatchService.createFootballmatch(FootballMatchDto.toEntity(footballMatchDto))) {
+        if (footballMatchService.createFootballMatch(FootballMatchDto.toEntity(footballMatchDto))) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

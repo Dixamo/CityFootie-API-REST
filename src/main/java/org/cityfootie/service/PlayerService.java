@@ -17,8 +17,15 @@ public class PlayerService {
 
     public boolean registerPlayer(Player player) {
         if (!playerDAO.existsByEmail(player.getEmail().toLowerCase())) {
-            playerDAO.save(player);
-            return true;
+            if (!playerDAO.existsByUsername(player.getUsername().toLowerCase())) {
+                player.setEmail(player.getEmail().toLowerCase());
+                player.setUsername(player.getUsername().toLowerCase());
+                playerDAO.save(player);
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         else {
             return false;

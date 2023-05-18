@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -14,7 +13,7 @@ public class FootballMatchService {
     @Autowired
     private FootballMatchDAO footballMatchDAO;
 
-    public boolean createFootballmatch(FootballMatch footballMatch) {
+    public boolean createFootballMatch(FootballMatch footballMatch) {
         if (!footballMatchDAO.existsById(footballMatch.getId())) {
             footballMatchDAO.save(footballMatch);
             return true;
