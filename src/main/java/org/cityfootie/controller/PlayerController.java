@@ -31,8 +31,8 @@ public class PlayerController {
 
     @GetMapping(path = "/players")
     public ResponseEntity<PlayerDto> loginPlayer(
-            @RequestParam(value = "email", required = false) String  email,
-            @RequestParam(value = "password", required = false) String  password) {
+            @RequestParam(value = "email", required = true) String  email,
+            @RequestParam(value = "password", required = true) String  password) {
         Player player = playerService.loginPlayer(email, password);
         if (player != null) {
             return ResponseEntity.ok(PlayerDto.toDto(player));
@@ -41,6 +41,8 @@ public class PlayerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    /*TODO PUT updatePlayer*/
 
     @GetMapping(path = "/playersList")
     public ResponseEntity<List<PlayerDto>> getAllPlayers() {
