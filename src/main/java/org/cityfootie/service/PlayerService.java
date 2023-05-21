@@ -8,7 +8,6 @@ import java.util.List;
 
 @Service
 public class PlayerService {
-    //WAAASIIIIIII
     @Autowired
     private PlayerDAO playerDAO;
     public Player loginPlayer(String email, String password) {
@@ -38,4 +37,5 @@ public class PlayerService {
     public Player getByNumber(int number) {
         return playerDAO.findByNumber(number);
     }
+
 }

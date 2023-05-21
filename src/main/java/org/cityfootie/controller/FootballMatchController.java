@@ -40,9 +40,9 @@ public class FootballMatchController {
         );
     }
 
-    @GetMapping(path = "/footballmatchesStreet")
+    @GetMapping(path = "/footballmatches/{street}")
     public ResponseEntity<FootballMatchDto> getFootballMatchByStreet (
-            @RequestParam(value = "street", required = false) String street
+            @PathVariable(value = "street") String street
     ) {
         FootballMatch footballMatch = footballMatchService.getFootballMatchByStreet(street);
         if (footballMatch != null) {
@@ -53,9 +53,9 @@ public class FootballMatchController {
         }
     }
 
-    @GetMapping(path = "/footballmatchesDate")
+    /*@GetMapping(path = "/footballmatches/{date}")
     public ResponseEntity<FootballMatchDto> getFootballMatchByDate (
-            @RequestParam(value = "date", required = false) Timestamp date
+            @PathVariable(value = "date") Timestamp date
     ) {
         FootballMatch footballMatch = footballMatchService.getFootballMatchByDate(date);
         if (footballMatch != null) {
@@ -64,5 +64,5 @@ public class FootballMatchController {
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-    }
+    }*/
 }
