@@ -44,7 +44,7 @@ public class PlayerController {
 
     /*TODO PUT updatePlayer*/
 
-    /*@GetMapping(path = "/players")
+    @GetMapping(path = "/allPlayers")
     public ResponseEntity<List<PlayerDto>> getAllPlayers() {
         return ResponseEntity.ok(
                 playerService
@@ -53,11 +53,10 @@ public class PlayerController {
                         .map(PlayerDto::toDto)
                         .collect(Collectors.toList())
         );
-    }*/
-
-    @GetMapping(path = "/players/{number}")
+    }
+    @GetMapping(path = "/playersByNumber")
     public ResponseEntity<PlayerDto> getByNumber(
-            @PathVariable(value = "number") int  number) {
+            @RequestParam(value = "number", required = true) int  number){
         Player player = playerService.getByNumber(number);
         if (player != null) {
             return ResponseEntity.ok(PlayerDto.toDto(player));
