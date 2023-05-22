@@ -14,7 +14,7 @@ import java.util.HashSet;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PlayerDto {
+public class UpdatePlayerDto {
     @Positive
     private Integer id;
     @NotBlank
@@ -26,38 +26,30 @@ public class PlayerDto {
     @NotBlank
     @JsonProperty("username")
     private String username;
-    @NotBlank
-    @JsonProperty("email")
-    private String email;
-    @NotBlank
-    @JsonProperty("password")
-    private String password;
     @NotNull
     @Positive
     @JsonProperty("number")
     private int number;
 
-    public static Player toEntity(PlayerDto dto){
+    public static Player toEntity(UpdatePlayerDto dto, String email, String password){
         return new Player(
                 dto.getId(),
                 dto.getName(),
                 dto.getSurnames(),
                 dto.getUsername(),
-                dto.getEmail(),
-                dto.getPassword(),
+                email,
+                password,
                 dto.getNumber(),
                 new HashSet<>()
         );
     }
 
-    public static PlayerDto toDto(Player player){
-        return new PlayerDto(
+    public static UpdatePlayerDto toDto(Player player){
+        return new UpdatePlayerDto(
                 player.getId(),
                 player.getName(),
                 player.getSurnames(),
                 player.getUsername(),
-                player.getEmail(),
-                player.getPassword(),
                 player.getNumber()
         );
     }

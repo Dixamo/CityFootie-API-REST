@@ -1,5 +1,6 @@
 package org.cityfootie.service;
 
+import org.cityfootie.controller.dto.PlayerDto;
 import org.cityfootie.dao.PlayerDAO;
 import org.cityfootie.entity.Player;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,6 @@ import java.util.List;
 public class PlayerService {
     @Autowired
     private PlayerDAO playerDAO;
-    public Player loginPlayer(String email, String password) {
-        return playerDAO.findByEmailAndPassword(email.toLowerCase(), password);
-    }
 
     public boolean registerPlayer(Player player) {
         if (!playerDAO.existsByEmail(player.getEmail().toLowerCase())) {
@@ -30,6 +28,38 @@ public class PlayerService {
             return false;
         }
     }
+
+    public Player loginPlayer(String email, String password) {
+        return playerDAO.findByEmailAndPassword(email.toLowerCase(), password);
+    }
+
+    public boolean updatePlayer(Integer playerId, Player player) {
+        if (playerDAO.existsById(playerId)) {
+            if (!playerDAO.existsByUsername(player.getUsername().toLowerCase())) {
+                player.setId(playerId);
+                player.setEmail(player.getEmail().toLowerCase());
+                player.setUsername(player.getUsername().toLowerCase());
+                playerDAO.save(player);
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    public Player getPlayerById(Integer playerId) {
+        if (playerDAO.existsById(playerId)) {
+            return playerDAO.getReferenceById(playerId);
+        }
+        else {
+            return null;
+        }
+    }
+
     public List<Player> getAllPlayers() {
         return playerDAO.findAll();
     }
