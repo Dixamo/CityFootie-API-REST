@@ -33,4 +33,30 @@ public class FootballMatchService {
     public List<FootballMatch> getAllFootballmatches() {
         return footballMatchDAO.findAll();
     }
+
+    public FootballMatch getFootballMatchById(Integer footballMatchId) {
+        if (footballMatchDAO.existsById(footballMatchId)) {
+            return footballMatchDAO.getReferenceById(footballMatchId);
+        }
+        else {
+            return null;
+        }
+    }
+
+    public boolean updateFootballMatch(Integer footballMatchId, FootballMatch footballMatch) {
+        if (footballMatchDAO.existsById(footballMatchId)) {
+            if (!footballMatchDAO.existsByStreet(footballMatch.getStreet().toLowerCase())) {
+                footballMatch.setId(footballMatchId);
+                footballMatch.setNumberMax(footballMatch.getNumberMax());
+                footballMatchDAO.save(footballMatch);
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 }

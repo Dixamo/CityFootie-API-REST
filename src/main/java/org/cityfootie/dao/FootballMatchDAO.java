@@ -12,4 +12,6 @@ public interface FootballMatchDAO extends JpaRepository<FootballMatch, Integer> 
     FootballMatch findByStreet(String street);
 
     FootballMatch getFootballMatchByDate(Timestamp date);
+
+    boolean existsByStreet(String lowerCase);
 }

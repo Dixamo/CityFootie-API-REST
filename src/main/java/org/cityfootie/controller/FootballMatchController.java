@@ -1,6 +1,7 @@
 package org.cityfootie.controller;
 
 import org.cityfootie.controller.dto.FootballMatchDto;
+import org.cityfootie.controller.dto.UpdateFootballMatchDto;
 import org.cityfootie.entity.FootballMatch;
 import org.cityfootie.service.FootballMatchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,24 @@ public class FootballMatchController {
             return ResponseEntity.ok(FootballMatchDto.toDto(footballMatch));
         } else {
 
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+    @PutMapping("/footballmatches/{footballMatchId}")
+    public ResponseEntity<Void> updateFootballmatch(
+            @PathVariable("footballMatchId") Integer footballMatchId,
+            @Valid @RequestBody UpdateFootballMatchDto footballMatch
+    ) {
+        FootballMatch toUpdateFootballMatch = footballMatchService.getFootballMatchById(footballMatchId);
+        if (toUpdateFootballMatch != null) {
+            if (footballMatchService.updateFootballMatch(footballMatchId, UpdateFootballMatchDto.toEntity(footballMatch, toUpdateFootballMatch.getNumberMax()))) {
+                return ResponseEntity.ok().build();
+            }
+            else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            }
+        }
+        else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
