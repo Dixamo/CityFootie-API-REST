@@ -43,6 +43,36 @@ public class PlayerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+    @PutMapping("/players/{playerEmail}")
+    public ResponseEntity<Void> updatePlayer(
+            @PathVariable("playerEmail") String playerEmail,
+            @Valid @RequestBody UpdatePlayerDto player
+    ) {
+        Player toUpdatePlayer = playerService.getPlayerByEmail(playerEmail);
+        if (toUpdatePlayer != null) {
+            if (playerService.updatePlayer(playerEmail, UpdatePlayerDto.toEntity(player, toUpdatePlayer.getId(), toUpdatePlayer.getUsername(), toUpdatePlayer.getEmail(), toUpdatePlayer.getPassword()))) {
+                return ResponseEntity.ok().build();
+            }
+            else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            }
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+    @GetMapping("/players/{playerEmail}")
+    public ResponseEntity<PlayerDto> getPlayerByEmail(
+            @PathVariable("playerEmail") String playerEmail
+    ) {
+        Player player = playerService.getPlayerByEmail(playerEmail);
+        if (player != null) {
+            return ResponseEntity.ok(PlayerDto.toDto(player));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
     @GetMapping(path = "/allPlayers")
     public ResponseEntity<List<PlayerDto>> getAllPlayers() {
         return ResponseEntity.ok(
@@ -64,23 +94,4 @@ public class PlayerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-    @PutMapping("/players/{playerId}")
-    public ResponseEntity<Void> updatePlayer(
-            @PathVariable("playerId") Integer playerId,
-            @Valid @RequestBody UpdatePlayerDto player
-    ) {
-        Player toUpdatePlayer = playerService.getPlayerById(playerId);
-        if (toUpdatePlayer != null) {
-            if (playerService.updatePlayer(playerId, UpdatePlayerDto.toEntity(player, toUpdatePlayer.getEmail(), toUpdatePlayer.getPassword()))) {
-                return ResponseEntity.ok().build();
-            }
-            else {
-                return ResponseEntity.status(HttpStatus.CONFLICT).build();
-            }
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
-
 }

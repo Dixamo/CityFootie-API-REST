@@ -32,6 +32,24 @@ public class PlayerService {
     public Player loginPlayer(String email, String password) {
         return playerDAO.findByEmailAndPassword(email.toLowerCase(), password);
     }
+
+    public boolean updatePlayer(String playerEmail, Player toUpdatePlayer) {
+        if (playerDAO.existsByEmail(playerEmail)) {
+            toUpdatePlayer.setId(toUpdatePlayer.getId());
+            toUpdatePlayer.setEmail(toUpdatePlayer.getEmail().toLowerCase());
+            toUpdatePlayer.setUsername(toUpdatePlayer.getUsername().toLowerCase());
+            playerDAO.save(toUpdatePlayer);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public Player getPlayerByEmail(String playerEmail) {
+        return playerDAO.findByEmail(playerEmail);
+    }
+
     public List<Player> getAllPlayers() {
         return playerDAO.findAll();
     }
@@ -48,23 +66,4 @@ public class PlayerService {
             return null;
         }
     }
-
-    public boolean updatePlayer(Integer playerId, Player player) {
-        if (playerDAO.existsById(playerId)) {
-            if (!playerDAO.existsByUsername(player.getUsername().toLowerCase())) {
-                player.setId(playerId);
-                player.setEmail(player.getEmail().toLowerCase());
-                player.setUsername(player.getUsername().toLowerCase());
-                playerDAO.save(player);
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-        else {
-            return false;
-        }
-    }
-
 }

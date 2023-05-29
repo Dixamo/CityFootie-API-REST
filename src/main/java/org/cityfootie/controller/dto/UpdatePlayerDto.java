@@ -15,28 +15,23 @@ import java.util.HashSet;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdatePlayerDto {
-    @Positive
-    private Integer id;
     @NotBlank
     @JsonProperty("name")
     private String name;
     @NotBlank
     @JsonProperty("surnames")
     private String surnames;
-    @NotBlank
-    @JsonProperty("username")
-    private String username;
     @NotNull
     @Positive
     @JsonProperty("number")
     private int number;
 
-    public static Player toEntity(UpdatePlayerDto dto, String email, String password){
+    public static Player toEntity(UpdatePlayerDto dto, Integer id, String username, String email, String password){
         return new Player(
-                dto.getId(),
+                id,
                 dto.getName(),
                 dto.getSurnames(),
-                dto.getUsername(),
+                username,
                 email,
                 password,
                 dto.getNumber(),
@@ -46,10 +41,8 @@ public class UpdatePlayerDto {
 
     public static UpdatePlayerDto toDto(Player player){
         return new UpdatePlayerDto(
-                player.getId(),
                 player.getName(),
                 player.getSurnames(),
-                player.getUsername(),
                 player.getNumber()
         );
     }
