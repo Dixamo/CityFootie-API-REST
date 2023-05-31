@@ -46,11 +46,13 @@ public class PlayerController {
     @PutMapping("/players/{playerEmail}")
     public ResponseEntity<Void> updatePlayer(
             @PathVariable("playerEmail") String playerEmail,
-            @Valid @RequestBody UpdatePlayerDto player
+            @RequestParam(value = "name", required = true) String  name,
+            @RequestParam(value = "surnames", required = true) String  surnames,
+            @RequestParam(value = "number", required = true) Integer  number
     ) {
         Player toUpdatePlayer = playerService.getPlayerByEmail(playerEmail);
         if (toUpdatePlayer != null) {
-            if (playerService.updatePlayer(playerEmail, UpdatePlayerDto.toEntity(player, toUpdatePlayer.getId(), toUpdatePlayer.getUsername(), toUpdatePlayer.getEmail(), toUpdatePlayer.getPassword()))) {
+            if (playerService.updatePlayer(toUpdatePlayer, name, surnames, number)) {
                 return ResponseEntity.ok().build();
             }
             else {

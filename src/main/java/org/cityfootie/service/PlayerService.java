@@ -33,9 +33,11 @@ public class PlayerService {
         return playerDAO.findByEmailAndPassword(email.toLowerCase(), password);
     }
 
-    public boolean updatePlayer(String playerEmail, Player toUpdatePlayer) {
-        if (playerDAO.existsByEmail(playerEmail)) {
-            toUpdatePlayer.setId(toUpdatePlayer.getId());
+    public boolean updatePlayer(Player toUpdatePlayer, String name, String surnames, int number) {
+        if (playerDAO.existsByEmail(toUpdatePlayer.getEmail())) {
+            toUpdatePlayer.setName(name);
+            toUpdatePlayer.setSurnames(surnames);
+            toUpdatePlayer.setNumber(number);
             toUpdatePlayer.setEmail(toUpdatePlayer.getEmail().toLowerCase());
             toUpdatePlayer.setUsername(toUpdatePlayer.getUsername().toLowerCase());
             playerDAO.save(toUpdatePlayer);
