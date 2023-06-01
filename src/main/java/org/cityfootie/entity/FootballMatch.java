@@ -21,8 +21,10 @@ public class FootballMatch implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "street")
-    private String street;
+    @Column(name = "latitude")
+    private double latitude;
+    @Column(name = "longitude")
+    private double longitude;
     @Column(name = "number_max")
     private int numberMax;
     @Column(name = "number_players")

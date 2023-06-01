@@ -19,9 +19,6 @@ import java.util.HashSet;
 public class UpdateFootballMatchDto {
     @Positive
     private Integer id;
-    @NotBlank
-    @JsonProperty("street")
-    private String street;
     @NotNull
     @Positive
     @JsonProperty("number_players")
@@ -29,21 +26,19 @@ public class UpdateFootballMatchDto {
     @JsonProperty("date")
     private Timestamp date;
 
-    public static FootballMatch toEntity(UpdateFootballMatchDto dto, int numberMax){
+    /*public static FootballMatch toEntity(UpdateFootballMatchDto dto, int numberMax){
         return new FootballMatch(
                 dto.getId(),
-                dto.getStreet(),
                 numberMax,
                 dto.getNumberPlayers(),
                 dto.getDate(),
                 new HashSet<>()
         );
-    }
+    }*/
 
     public static UpdateFootballMatchDto toDto(FootballMatch footballMatch){
         return new UpdateFootballMatchDto(
                 footballMatch.getId(),
-                footballMatch.getStreet(),
                 footballMatch.getNumberPlayers(),
                 footballMatch.getDate()
         );

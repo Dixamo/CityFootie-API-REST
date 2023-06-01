@@ -19,9 +19,12 @@ import java.util.HashSet;
 public class FootballMatchDto {
     @Positive
     private Integer id;
-    @NotBlank
-    @JsonProperty("street")
-    private String street;
+    @NotNull
+    @JsonProperty("latitude")
+    private double latitude;
+    @NotNull
+    @JsonProperty("longitude")
+    private double longitude;
     @NotNull
     @Positive
     @JsonProperty("number_max")
@@ -32,6 +35,7 @@ public class FootballMatchDto {
     private int numberPlayers;
     @JsonProperty("date")
     private Timestamp date;
+
 
     public static FootballMatch toEntity(FootballMatchDto dto){
         return new FootballMatch(
@@ -47,7 +51,8 @@ public class FootballMatchDto {
     public static FootballMatchDto toDto(FootballMatch footballMatch){
         return new FootballMatchDto(
                 footballMatch.getId(),
-                footballMatch.getStreet(),
+                footballMatch.getLatitude(),
+                footballMatch.getLongitude(),
                 footballMatch.getNumberMax(),
                 footballMatch.getNumberPlayers(),
                 footballMatch.getDate()

@@ -2,19 +2,27 @@ package org.cityfootie.service;
 
 import org.cityfootie.dao.FootballMatchDAO;
 import org.cityfootie.entity.FootballMatch;
+import org.cityfootie.entity.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class FootballMatchService {
     @Autowired
     private FootballMatchDAO footballMatchDAO;
 
+    public FootballMatch getFootballMatchByLatLng(double latitude, double longitude) {
+        return footballMatchDAO.findByLatitudeAndLongitude(latitude, longitude);
+    }
+
+
     public boolean createFootballMatch(FootballMatch footballMatch) {
-        if (!footballMatchDAO.existsById(footballMatch.getId())) {
+        if (!footballMatchDAO.existsByLatitudeAndLongitude(footballMatch.getLatitude(), footballMatch.getLongitude())) {
             footballMatchDAO.save(footballMatch);
             return true;
         }
@@ -22,9 +30,30 @@ public class FootballMatchService {
             return false;
         }
     }
-    public FootballMatch getFootballMatchByStreet(String street) {
-        return footballMatchDAO.findByStreet(street);
+
+    public boolean joinPlayerToFootballMatch(Player player, FootballMatch footballMatch) {
+        if (footballMatch.getPlayers() == null) {
+            Set<Player> footballMatchPlayers = new HashSet<>();
+            footballMatchPlayers.add(player);
+            footballMatch.setPlayers(footballMatchPlayers);
+            Set<FootballMatch> footballMatches = new HashSet<>();
+            footballMatches.add(footballMatch);
+            player.setFootballMatches(footballMatches);
+        }
+        else {
+            Set<Player> footballMatchPlayers = footballMatch.getPlayers();
+            footballMatchPlayers.add(player);
+            footballMatch.setPlayers(footballMatchPlayers);
+            Set<FootballMatch> playerFootballMatches = player.getFootballMatches();
+            playerFootballMatches.add(footballMatch);
+            player.setFootballMatches(playerFootballMatches);
+        }
+        footballMatchDAO.save(footballMatch);
+        return true;
     }
+    /*public FootballMatch getFootballMatchByStreet(String street) {
+        return footballMatchDAO.findByStreet(street);
+    }*/
 
     public FootballMatch getFootballMatchByDate(Timestamp date) {
         return footballMatchDAO.getFootballMatchByDate(date);
@@ -43,7 +72,7 @@ public class FootballMatchService {
         }
     }
 
-    public boolean updateFootballMatch(Integer footballMatchId, FootballMatch footballMatch) {
+    /*public boolean updateFootballMatch(Integer footballMatchId, FootballMatch footballMatch) {
         if (footballMatchDAO.existsById(footballMatchId)) {
             if (!footballMatchDAO.existsByStreet(footballMatch.getStreet().toLowerCase())) {
                 footballMatch.setId(footballMatchId);
@@ -58,5 +87,5 @@ public class FootballMatchService {
         else {
             return false;
         }
-    }
+    }*/
 }

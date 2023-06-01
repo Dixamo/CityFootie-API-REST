@@ -49,7 +49,7 @@ public class PlayerService {
     }
 
     public Player getPlayerByEmail(String playerEmail) {
-        return playerDAO.findByEmail(playerEmail);
+        return playerDAO.findByEmail(playerEmail.toLowerCase());
     }
 
     public List<Player> getAllPlayers() {
