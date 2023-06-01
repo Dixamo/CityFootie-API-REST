@@ -40,7 +40,8 @@ public class FootballMatchDto {
     public static FootballMatch toEntity(FootballMatchDto dto){
         return new FootballMatch(
                 dto.getId(),
-                dto.getStreet(),
+                dto.getLatitude(),
+                dto.getLongitude(),
                 dto.getNumberMax(),
                 dto.getNumberPlayers(),
                 dto.getDate(),
