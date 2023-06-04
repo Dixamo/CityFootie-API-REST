@@ -32,7 +32,20 @@ public class FootballMatchService {
     }
 
     public boolean joinPlayerToFootballMatch(Player player, FootballMatch footballMatch) {
-        if (footballMatch.getPlayers() == null) {
+        Set<Player> footballMatchPlayers = footballMatch.getPlayers();
+        if (!footballMatchPlayers.contains(player)) {
+            footballMatchPlayers.add(player);
+            footballMatch.setPlayers(footballMatchPlayers);
+            Set<FootballMatch> playerFootballMatches = player.getFootballMatches();
+            playerFootballMatches.add(footballMatch);
+            player.setFootballMatches(playerFootballMatches);
+            footballMatchDAO.save(footballMatch);
+            return true;
+        }
+        else {
+            return false;
+        }
+        /*if (footballMatch.getPlayers() == null) {
             Set<Player> footballMatchPlayers = new HashSet<>();
             footballMatchPlayers.add(player);
             footballMatch.setPlayers(footballMatchPlayers);
@@ -41,15 +54,8 @@ public class FootballMatchService {
             player.setFootballMatches(footballMatches);
         }
         else {
-            Set<Player> footballMatchPlayers = footballMatch.getPlayers();
-            footballMatchPlayers.add(player);
-            footballMatch.setPlayers(footballMatchPlayers);
-            Set<FootballMatch> playerFootballMatches = player.getFootballMatches();
-            playerFootballMatches.add(footballMatch);
-            player.setFootballMatches(playerFootballMatches);
-        }
-        footballMatchDAO.save(footballMatch);
-        return true;
+
+        }*/
     }
     /*public FootballMatch getFootballMatchByStreet(String street) {
         return footballMatchDAO.findByStreet(street);

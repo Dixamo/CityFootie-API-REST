@@ -53,10 +53,15 @@ public class FootballMatchController {
     ) {
         Player player = playerService.getPlayerByEmail(playerEmail);
         FootballMatch footballMatch = footballMatchService.getFootballMatchByLatLng(latitude, longitude);
-        if (footballMatchService.joinPlayerToFootballMatch(player, footballMatch)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        if (player == null || footballMatch == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        else {
+            if (footballMatchService.joinPlayerToFootballMatch(player, footballMatch)) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            }
         }
     }
 
