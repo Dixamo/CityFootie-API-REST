@@ -21,17 +21,20 @@ public class UpdatePlayerDto {
     @NotBlank
     @JsonProperty("surnames")
     private String surnames;
+    @NotBlank
+    @JsonProperty("username")
+    private String username;
     @NotNull
     @Positive
     @JsonProperty("number")
     private int number;
 
-    public static Player toEntity(UpdatePlayerDto dto, Integer id, String username, String email, String password){
+    public static Player toEntity(UpdatePlayerDto dto, Integer id, String email, String password){
         return new Player(
                 id,
                 dto.getName(),
                 dto.getSurnames(),
-                username,
+                dto.getUsername(),
                 email,
                 password,
                 dto.getNumber(),
@@ -43,6 +46,7 @@ public class UpdatePlayerDto {
         return new UpdatePlayerDto(
                 player.getName(),
                 player.getSurnames(),
+                player.getUsername(),
                 player.getNumber()
         );
     }
