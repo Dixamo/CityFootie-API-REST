@@ -4,6 +4,7 @@ import org.cityfootie.dao.FootballMatchDAO;
 import org.cityfootie.entity.FootballMatch;
 import org.cityfootie.entity.Player;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -23,8 +24,13 @@ public class FootballMatchService {
 
     public boolean createFootballMatch(FootballMatch footballMatch) {
         if (!footballMatchDAO.existsByLatitudeAndLongitude(footballMatch.getLatitude(), footballMatch.getLongitude())) {
-            footballMatchDAO.save(footballMatch);
-            return true;
+            if (footballMatch.getDate().after(new Timestamp(System.currentTimeMillis()))) {
+                footballMatchDAO.save(footballMatch);
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         else {
             return false;
@@ -57,6 +63,14 @@ public class FootballMatchService {
 
         }*/
     }
+
+    @Scheduled(fixedRate = 30000)
+    public void deleteExpiredMatchesScheduled() {
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        List<FootballMatch> expiredFootballMatches = footballMatchDAO.findByDateBefore(currentTime);
+        footballMatchDAO.deleteAll(expiredFootballMatches);
+    }
+
     /*public FootballMatch getFootballMatchByStreet(String street) {
         return footballMatchDAO.findByStreet(street);
     }*/

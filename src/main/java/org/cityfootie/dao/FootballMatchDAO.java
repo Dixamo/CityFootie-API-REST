@@ -3,9 +3,13 @@ package org.cityfootie.dao;
 
 import org.cityfootie.entity.FootballMatch;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Repository
 public interface FootballMatchDAO extends JpaRepository<FootballMatch, Integer> {
@@ -15,6 +19,8 @@ public interface FootballMatchDAO extends JpaRepository<FootballMatch, Integer> 
     //FootballMatch findByStreet(String street);
 
     FootballMatch getFootballMatchByDate(Timestamp date);
+
+    List<FootballMatch> findByDateBefore(Timestamp currentTime);
 
     //boolean existsByStreet(String lowerCase);
 }
