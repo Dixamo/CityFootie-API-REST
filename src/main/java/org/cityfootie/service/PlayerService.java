@@ -33,14 +33,14 @@ public class PlayerService {
         return playerDAO.findByEmailAndPassword(email.toLowerCase(), password);
     }
 
-    public boolean updatePlayer(Player toUpdatePlayer, Player updatedPlayer) {
+    public boolean updatePlayer(Player toUpdatePlayer, String name, String surnames, String username, int number) {
         if (playerDAO.existsByEmail(toUpdatePlayer.getEmail())) {
-            if (!toUpdatePlayer.getUsername().equalsIgnoreCase(updatedPlayer.getUsername())) {
-                if (!playerDAO.existsByUsername(updatedPlayer.getUsername())) {
-                    toUpdatePlayer.setName(updatedPlayer.getName());
-                    toUpdatePlayer.setSurnames(updatedPlayer.getSurnames());
-                    toUpdatePlayer.setUsername(updatedPlayer.getUsername().toLowerCase());
-                    toUpdatePlayer.setNumber(updatedPlayer.getNumber());
+            if (!toUpdatePlayer.getUsername().equalsIgnoreCase(username)) {
+                if (!playerDAO.existsByUsername(username)) {
+                    toUpdatePlayer.setName(name);
+                    toUpdatePlayer.setSurnames(surnames);
+                    toUpdatePlayer.setUsername(username.toLowerCase());
+                    toUpdatePlayer.setNumber(number);
                     playerDAO.save(toUpdatePlayer);
                     return true;
                 }
@@ -49,9 +49,9 @@ public class PlayerService {
                 }
             }
             else {
-                toUpdatePlayer.setName(updatedPlayer.getName());
-                toUpdatePlayer.setSurnames(updatedPlayer.getSurnames());
-                toUpdatePlayer.setNumber(updatedPlayer.getNumber());
+                toUpdatePlayer.setName(name);
+                toUpdatePlayer.setSurnames(surnames);
+                toUpdatePlayer.setNumber(number);
                 playerDAO.save(toUpdatePlayer);
                 return true;
             }
