@@ -83,19 +83,6 @@ public class PlayerController {
         }
     }
 
-    @GetMapping("/players/{latitude}/{longitude}")
-    public ResponseEntity<List<PlayerDto>> getPlayersByFootballMatch(
-            @PathVariable(value = "latitude", required = true) double latitude,
-            @PathVariable(value = "longitude", required = true) double longitude
-    ) {
-        FootballMatch footballMatch = footballMatchService.getFootballMatchByLatLng(latitude, longitude);
-        if (footballMatch.getPlayers() != null) {
-            return ResponseEntity.ok(footballMatch.getPlayers().stream().map(PlayerDto::toDto).collect(Collectors.toList()));
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
     @PutMapping("/players/{playerEmail}/{oldPassword}/{newPassword}")
     public ResponseEntity<Void> updatePassword(
             @PathVariable("playerEmail") String playerEmail,
@@ -115,6 +102,25 @@ public class PlayerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @GetMapping("/players/{latitude}/{longitude}")
+    public ResponseEntity<List<PlayerDto>> getPlayersByFootballMatch(
+            @PathVariable(value = "latitude", required = true) double latitude,
+            @PathVariable(value = "longitude", required = true) double longitude
+    ) {
+        FootballMatch footballMatch = footballMatchService.getFootballMatchByLatLng(latitude, longitude);
+        if (footballMatch.getPlayers() != null) {
+            return ResponseEntity.ok(footballMatch.getPlayers().stream().map(PlayerDto::toDto).collect(Collectors.toList()));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+
+
+
+
 
     @GetMapping(path = "/allPlayers")
     public ResponseEntity<List<PlayerDto>> getAllPlayers() {
