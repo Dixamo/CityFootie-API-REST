@@ -30,7 +30,6 @@ public class FootballMatchDto {
     @JsonProperty("number_max")
     private int numberMax;
     @NotNull
-    @Positive
     @JsonProperty("number_players")
     private int numberPlayers;
     @JsonProperty("date")

@@ -20,10 +20,10 @@ public class FootballMatchController {
     @Autowired
     private PlayerService playerService;
 
-    @GetMapping(path = "/footballMatches")
+    @GetMapping(path = "/footballMatches/{latitude}/{longitude}")
     public ResponseEntity<FootballMatchDto> getFootbalMatch(
-            @RequestParam(value = "latitude", required = true) double latitude,
-            @RequestParam(value = "longitude", required = true) double longitude
+            @PathVariable(value = "latitude", required = true) double latitude,
+            @PathVariable(value = "longitude", required = true) double longitude
     ) {
         FootballMatch footballMatch = footballMatchService.getFootballMatchByLatLng(latitude, longitude);
         if (footballMatch != null) {
@@ -45,11 +45,11 @@ public class FootballMatchController {
         }
     }
 
-    @PutMapping("/footballMatches")
+    @PutMapping("/footballMatches/{latitude}/{longitude}")
     public ResponseEntity<Void> joinPlayerToFootbalMatch(
-            @RequestParam(value = "email", required = true) String  playerEmail,
-            @RequestParam(value = "latitude", required = true) double latitude,
-            @RequestParam(value = "longitude", required = true) double longitude
+            @PathVariable(value = "latitude", required = true) double latitude,
+            @PathVariable(value = "longitude", required = true) double longitude,
+            @RequestParam(value = "email", required = true) String  playerEmail
     ) {
         Player player = playerService.getPlayerByEmail(playerEmail);
         FootballMatch footballMatch = footballMatchService.getFootballMatchByLatLng(latitude, longitude);

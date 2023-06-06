@@ -39,9 +39,10 @@ public class FootballMatchService {
 
     public boolean joinPlayerToFootballMatch(Player player, FootballMatch footballMatch) {
         Set<Player> footballMatchPlayers = footballMatch.getPlayers();
-        if (!footballMatchPlayers.contains(player)) {
+        if (!footballMatchPlayers.contains(player) || footballMatchPlayers.size() >= footballMatch.getNumberMax()) {
             footballMatchPlayers.add(player);
             footballMatch.setPlayers(footballMatchPlayers);
+            footballMatch.setNumberPlayers(footballMatch.getPlayers().size());
             Set<FootballMatch> playerFootballMatches = player.getFootballMatches();
             playerFootballMatches.add(footballMatch);
             player.setFootballMatches(playerFootballMatches);

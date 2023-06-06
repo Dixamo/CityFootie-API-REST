@@ -2,7 +2,9 @@ package org.cityfootie.controller;
 
 import org.cityfootie.controller.dto.PlayerDto;
 import org.cityfootie.controller.dto.UpdatePlayerDto;
+import org.cityfootie.entity.FootballMatch;
 import org.cityfootie.entity.Player;
+import org.cityfootie.service.FootballMatchService;
 import org.cityfootie.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,8 @@ import java.util.stream.Collectors;
 public class PlayerController {
     @Autowired
     private PlayerService playerService;
+    @Autowired
+    private FootballMatchService footballMatchService;
 
     @PostMapping(path = "/players")
     public ResponseEntity<Void> registerPlayer(
@@ -43,6 +47,20 @@ public class PlayerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @GetMapping("/players/{playerEmail}")
+    public ResponseEntity<PlayerDto> getPlayerByEmail(
+            @PathVariable("playerEmail") String playerEmail
+    ) {
+        Player player = playerService.getPlayerByEmail(playerEmail);
+        if (player != null) {
+            return ResponseEntity.ok(PlayerDto.toDto(player));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     @PutMapping("/players/{playerEmail}")
     public ResponseEntity<Void> updatePlayer(
             @PathVariable("playerEmail") String playerEmail,
@@ -64,18 +82,40 @@ public class PlayerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-    @GetMapping("/players/{playerEmail}")
-    public ResponseEntity<PlayerDto> getPlayerByEmail(
-            @PathVariable("playerEmail") String playerEmail
+
+    @GetMapping("/players/{latitude}/{longitude}")
+    public ResponseEntity<List<PlayerDto>> getPlayersByFootballMatch(
+            @PathVariable(value = "latitude", required = true) double latitude,
+            @PathVariable(value = "longitude", required = true) double longitude
     ) {
-        Player player = playerService.getPlayerByEmail(playerEmail);
-        if (player != null) {
-            return ResponseEntity.ok(PlayerDto.toDto(player));
+        FootballMatch footballMatch = footballMatchService.getFootballMatchByLatLng(latitude, longitude);
+        if (footballMatch.getPlayers() != null) {
+            return ResponseEntity.ok(footballMatch.getPlayers().stream().map(PlayerDto::toDto).collect(Collectors.toList()));
         }
         else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+    @PutMapping("/players/{playerEmail}/{oldPassword}/{newPassword}")
+    public ResponseEntity<Void> updatePassword(
+            @PathVariable("playerEmail") String playerEmail,
+            @PathVariable(value = "oldPassword", required = true) String oldPassword,
+            @PathVariable(value = "newPassword", required = true) String newPassword
+    ) {
+        Player toUpdatePlayer = playerService.getPlayerByEmail(playerEmail);
+        if (toUpdatePlayer != null) {
+            if (playerService.updatePassword(toUpdatePlayer, oldPassword, newPassword)) {
+                return ResponseEntity.ok().build();
+            }
+            else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            }
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     @GetMapping(path = "/allPlayers")
     public ResponseEntity<List<PlayerDto>> getAllPlayers() {
         return ResponseEntity.ok(
