@@ -28,8 +28,7 @@ public class FootballMatchController {
         FootballMatch footballMatch = footballMatchService.getFootballMatchByLatLng(latitude, longitude);
         if (footballMatch != null) {
             return ResponseEntity.ok(FootballMatchDto.toDto(footballMatch));
-        }
-        else {
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
@@ -49,14 +48,13 @@ public class FootballMatchController {
     public ResponseEntity<Void> joinPlayerToFootbalMatch(
             @PathVariable(value = "latitude", required = true) double latitude,
             @PathVariable(value = "longitude", required = true) double longitude,
-            @RequestParam(value = "email", required = true) String  playerEmail
+            @RequestParam(value = "email", required = true) String playerEmail
     ) {
         Player player = playerService.getPlayerByEmail(playerEmail);
         FootballMatch footballMatch = footballMatchService.getFootballMatchByLatLng(latitude, longitude);
         if (player == null || footballMatch == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        else {
+        } else {
             if (footballMatchService.joinPlayerToFootballMatch(player, footballMatch)) {
                 return ResponseEntity.ok().build();
             } else {
@@ -64,67 +62,4 @@ public class FootballMatchController {
             }
         }
     }
-
-
-
-
-
-
-
-
-
-    /*@GetMapping(path = "/footballMatches")
-    public ResponseEntity<List<FootballMatchDto>> getAllFootballMatches() {
-        return ResponseEntity.ok(
-                footballMatchService
-                        .getAllFootballmatches()
-                        .stream()
-                        .map(FootballMatchDto::toDto)
-                        .collect(Collectors.toList())
-        );
-    }*/
-
-    /*@GetMapping(path = "/footballMatchesByStreet")
-    public ResponseEntity<FootballMatchDto> getFootballMatchByStreet (
-            @RequestParam(value = "street", required = true) String street
-    ) {
-        FootballMatch footballMatch = footballMatchService.getFootballMatchByStreet(street);
-        if (footballMatch != null) {
-            return ResponseEntity.ok(FootballMatchDto.toDto(footballMatch));
-        } else {
-
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }*/
-
-    @GetMapping(path = "/footballMatchesByDate")
-    public ResponseEntity<FootballMatchDto> getFootballMatchByDate (
-            @RequestParam(value = "date", required = true) Timestamp date
-    ) {
-        FootballMatch footballMatch = footballMatchService.getFootballMatchByDate(date);
-        if (footballMatch != null) {
-            return ResponseEntity.ok(FootballMatchDto.toDto(footballMatch));
-        } else {
-
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
-    /*@PutMapping("/footballMatches/{footballMatchId}")
-    public ResponseEntity<Void> updateFootballmatch(
-            @PathVariable("footballMatchId") Integer footballMatchId,
-            @Valid @RequestBody UpdateFootballMatchDto footballMatch
-    ) {
-        FootballMatch toUpdateFootballMatch = footballMatchService.getFootballMatchById(footballMatchId);
-        if (toUpdateFootballMatch != null) {
-            if (footballMatchService.updateFootballMatch(footballMatchId, UpdateFootballMatchDto.toEntity(footballMatch, toUpdateFootballMatch.getNumberMax()))) {
-                return ResponseEntity.ok().build();
-            }
-            else {
-                return ResponseEntity.status(HttpStatus.CONFLICT).build();
-            }
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }*/
 }

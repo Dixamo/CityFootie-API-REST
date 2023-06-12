@@ -37,7 +37,7 @@ public class PlayerDto {
     @JsonProperty("number")
     private int number;
 
-    public static Player toEntity(PlayerDto dto){
+    public static Player toEntity(PlayerDto dto) {
         return new Player(
                 dto.getId(),
                 dto.getName(),
@@ -50,7 +50,7 @@ public class PlayerDto {
         );
     }
 
-    public static PlayerDto toDto(Player player){
+    public static PlayerDto toDto(Player player) {
         return new PlayerDto(
                 player.getId(),
                 player.getName(),

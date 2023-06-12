@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.cityfootie.entity.FootballMatch;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.sql.Timestamp;
@@ -36,7 +35,7 @@ public class FootballMatchDto {
     private Timestamp date;
 
 
-    public static FootballMatch toEntity(FootballMatchDto dto){
+    public static FootballMatch toEntity(FootballMatchDto dto) {
         return new FootballMatch(
                 dto.getId(),
                 dto.getLatitude(),
@@ -48,7 +47,7 @@ public class FootballMatchDto {
         );
     }
 
-    public static FootballMatchDto toDto(FootballMatch footballMatch){
+    public static FootballMatchDto toDto(FootballMatch footballMatch) {
         return new FootballMatchDto(
                 footballMatch.getId(),
                 footballMatch.getLatitude(),

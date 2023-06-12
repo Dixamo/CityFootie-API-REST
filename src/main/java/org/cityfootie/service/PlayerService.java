@@ -5,8 +5,6 @@ import org.cityfootie.entity.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class PlayerService {
     @Autowired
@@ -19,12 +17,10 @@ public class PlayerService {
                 player.setUsername(player.getUsername().toLowerCase());
                 playerDAO.save(player);
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -42,12 +38,10 @@ public class PlayerService {
                 toUpdatePlayer.setNumber(number);
                 playerDAO.save(toUpdatePlayer);
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
-        }
-        else {
+        } else {
             toUpdatePlayer.setName(name);
             toUpdatePlayer.setSurnames(surnames);
             toUpdatePlayer.setNumber(number);
@@ -56,35 +50,7 @@ public class PlayerService {
         }
     }
 
-    public boolean updatePassword(Player toUpdatePlayer, String oldPassword, String newPassword) {
-        if (toUpdatePlayer.getPassword().equals(oldPassword)) {
-            toUpdatePlayer.setPassword(newPassword);
-            playerDAO.save(toUpdatePlayer);
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     public Player getPlayerByEmail(String playerEmail) {
         return playerDAO.findByEmail(playerEmail.toLowerCase());
-    }
-
-    public List<Player> getAllPlayers() {
-        return playerDAO.findAll();
-    }
-
-    public Player getByNumber(int number) {
-        return playerDAO.findByNumber(number);
-    }
-
-    public Player getPlayerById(Integer playerId) {
-        if (playerDAO.existsById(playerId)) {
-            return playerDAO.getReferenceById(playerId);
-        }
-        else {
-            return null;
-        }
     }
 }

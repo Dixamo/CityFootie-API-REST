@@ -5,8 +5,6 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.sql.Timestamp;
-
 @SpringBootApplication
 @AutoConfiguration
 @EnableScheduling

@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,12 +26,10 @@ public class FootballMatchService {
             if (footballMatch.getDate().after(new Timestamp(System.currentTimeMillis()))) {
                 footballMatchDAO.save(footballMatch);
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -48,21 +45,9 @@ public class FootballMatchService {
             player.setFootballMatches(playerFootballMatches);
             footballMatchDAO.save(footballMatch);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
-        /*if (footballMatch.getPlayers() == null) {
-            Set<Player> footballMatchPlayers = new HashSet<>();
-            footballMatchPlayers.add(player);
-            footballMatch.setPlayers(footballMatchPlayers);
-            Set<FootballMatch> footballMatches = new HashSet<>();
-            footballMatches.add(footballMatch);
-            player.setFootballMatches(footballMatches);
-        }
-        else {
-
-        }*/
     }
 
     @Scheduled(fixedRate = 30000)
@@ -71,42 +56,4 @@ public class FootballMatchService {
         List<FootballMatch> expiredFootballMatches = footballMatchDAO.findByDateBefore(currentTime);
         footballMatchDAO.deleteAll(expiredFootballMatches);
     }
-
-    /*public FootballMatch getFootballMatchByStreet(String street) {
-        return footballMatchDAO.findByStreet(street);
-    }*/
-
-    public FootballMatch getFootballMatchByDate(Timestamp date) {
-        return footballMatchDAO.getFootballMatchByDate(date);
-    }
-
-    public List<FootballMatch> getAllFootballmatches() {
-        return footballMatchDAO.findAll();
-    }
-
-    public FootballMatch getFootballMatchById(Integer footballMatchId) {
-        if (footballMatchDAO.existsById(footballMatchId)) {
-            return footballMatchDAO.getReferenceById(footballMatchId);
-        }
-        else {
-            return null;
-        }
-    }
-
-    /*public boolean updateFootballMatch(Integer footballMatchId, FootballMatch footballMatch) {
-        if (footballMatchDAO.existsById(footballMatchId)) {
-            if (!footballMatchDAO.existsByStreet(footballMatch.getStreet().toLowerCase())) {
-                footballMatch.setId(footballMatchId);
-                footballMatch.setNumberMax(footballMatch.getNumberMax());
-                footballMatchDAO.save(footballMatch);
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-        else {
-            return false;
-        }
-    }*/
 }

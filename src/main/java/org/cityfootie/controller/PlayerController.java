@@ -1,7 +1,6 @@
 package org.cityfootie.controller;
 
 import org.cityfootie.controller.dto.PlayerDto;
-import org.cityfootie.controller.dto.UpdatePlayerDto;
 import org.cityfootie.entity.FootballMatch;
 import org.cityfootie.entity.Player;
 import org.cityfootie.service.FootballMatchService;
@@ -36,14 +35,13 @@ public class PlayerController {
 
     @GetMapping(path = "/players")
     public ResponseEntity<PlayerDto> loginPlayer(
-            @RequestParam(value = "email", required = true) String  email,
-            @RequestParam(value = "password", required = true) String  password
+            @RequestParam(value = "email", required = true) String email,
+            @RequestParam(value = "password", required = true) String password
     ) {
         Player player = playerService.loginPlayer(email, password);
         if (player != null) {
             return ResponseEntity.ok(PlayerDto.toDto(player));
-        }
-        else {
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
@@ -55,8 +53,7 @@ public class PlayerController {
         Player player = playerService.getPlayerByEmail(playerEmail);
         if (player != null) {
             return ResponseEntity.ok(PlayerDto.toDto(player));
-        }
-        else {
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
@@ -64,41 +61,19 @@ public class PlayerController {
     @PutMapping("/players/{playerEmail}")
     public ResponseEntity<Void> updatePlayer(
             @PathVariable("playerEmail") String playerEmail,
-            @RequestParam(value = "name", required = true) String  name,
-            @RequestParam(value = "surnames", required = true) String  surnames,
+            @RequestParam(value = "name", required = true) String name,
+            @RequestParam(value = "surnames", required = true) String surnames,
             @RequestParam(value = "username", required = true) String username,
-            @RequestParam(value = "number", required = true) Integer  number
+            @RequestParam(value = "number", required = true) Integer number
     ) {
         Player toUpdatePlayer = playerService.getPlayerByEmail(playerEmail);
         if (toUpdatePlayer != null) {
             if (playerService.updatePlayer(toUpdatePlayer, name, surnames, username, number)) {
                 return ResponseEntity.ok().build();
-            }
-            else {
+            } else {
                 return ResponseEntity.status(HttpStatus.CONFLICT).build();
             }
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
-
-    @PutMapping("/players/{playerEmail}/{oldPassword}/{newPassword}")
-    public ResponseEntity<Void> updatePassword(
-            @PathVariable("playerEmail") String playerEmail,
-            @PathVariable(value = "oldPassword", required = true) String oldPassword,
-            @PathVariable(value = "newPassword", required = true) String newPassword
-    ) {
-        Player toUpdatePlayer = playerService.getPlayerByEmail(playerEmail);
-        if (toUpdatePlayer != null) {
-            if (playerService.updatePassword(toUpdatePlayer, oldPassword, newPassword)) {
-                return ResponseEntity.ok().build();
-            }
-            else {
-                return ResponseEntity.status(HttpStatus.CONFLICT).build();
-            }
-        }
-        else {
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
@@ -111,35 +86,7 @@ public class PlayerController {
         FootballMatch footballMatch = footballMatchService.getFootballMatchByLatLng(latitude, longitude);
         if (footballMatch.getPlayers() != null) {
             return ResponseEntity.ok(footballMatch.getPlayers().stream().map(PlayerDto::toDto).collect(Collectors.toList()));
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
-
-
-
-
-
-
-    @GetMapping(path = "/allPlayers")
-    public ResponseEntity<List<PlayerDto>> getAllPlayers() {
-        return ResponseEntity.ok(
-                playerService
-                        .getAllPlayers()
-                        .stream()
-                        .map(PlayerDto::toDto)
-                        .collect(Collectors.toList())
-        );
-    }
-    @GetMapping(path = "/playersByNumber")
-    public ResponseEntity<PlayerDto> getByNumber(
-            @RequestParam(value = "number", required = true) int  number){
-        Player player = playerService.getByNumber(number);
-        if (player != null) {
-            return ResponseEntity.ok(PlayerDto.toDto(player));
-        }
-        else {
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
