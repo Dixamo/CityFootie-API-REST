@@ -17,6 +17,7 @@
         <maven-plugin.version>3.8.1</maven-plugin.version>
     </properties>
     <dependencies>
+
         <!-- SpringBoot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -33,12 +34,14 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
+
         <!-- PostgreSQL -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.5.1</version>
         </dependency>
+
         <!-- Jaxb -->
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
@@ -50,30 +53,13 @@
             <artifactId>jaxb-runtime</artifactId>
             <version>2.3.2</version>
         </dependency>
+
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

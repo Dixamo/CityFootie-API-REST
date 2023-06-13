@@ -14,8 +14,6 @@ public interface FootballMatchDAO extends JpaRepository<FootballMatch, Integer> 
 
     FootballMatch findByLatitudeAndLongitude(double latitude, double longitude);
 
-    FootballMatch getFootballMatchByDate(Timestamp date);
-
     List<FootballMatch> findByDateBefore(Timestamp currentTime);
 
 }

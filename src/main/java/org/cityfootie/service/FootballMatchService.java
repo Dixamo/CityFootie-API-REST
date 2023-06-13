@@ -16,11 +16,24 @@ public class FootballMatchService {
     @Autowired
     private FootballMatchDAO footballMatchDAO;
 
+    /**
+     * Método encargado de obtener el partido que hay en una pista (a través de latitud y longitud).
+     *
+     * @param latitude
+     * @param longitude
+     * @return FootballMatch
+     */
     public FootballMatch getFootballMatchByLatLng(double latitude, double longitude) {
         return footballMatchDAO.findByLatitudeAndLongitude(latitude, longitude);
     }
 
 
+    /**
+     * Método encargado de crear un partido nuevo.
+     *
+     * @param footballMatch
+     * @return boolean
+     */
     public boolean createFootballMatch(FootballMatch footballMatch) {
         if (!footballMatchDAO.existsByLatitudeAndLongitude(footballMatch.getLatitude(), footballMatch.getLongitude())) {
             if (footballMatch.getDate().after(new Timestamp(System.currentTimeMillis()))) {
@@ -34,6 +47,13 @@ public class FootballMatchService {
         }
     }
 
+    /**
+     * Método encargado de unir un jugador a un partido (vinculándolo con la tabla intermedia)
+     *
+     * @param player
+     * @param footballMatch
+     * @return boolean
+     */
     public boolean joinPlayerToFootballMatch(Player player, FootballMatch footballMatch) {
         Set<Player> footballMatchPlayers = footballMatch.getPlayers();
         if (!footballMatchPlayers.contains(player) || footballMatchPlayers.size() >= footballMatch.getNumberMax()) {
@@ -50,6 +70,9 @@ public class FootballMatchService {
         }
     }
 
+    /**
+     * Método encargado de borrar el partido cuando haya pasado medio minuto.
+     */
     @Scheduled(fixedRate = 30000)
     public void deleteExpiredMatchesScheduled() {
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());

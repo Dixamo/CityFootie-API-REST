@@ -22,6 +22,12 @@ public class PlayerController {
     @Autowired
     private FootballMatchService footballMatchService;
 
+    /**
+     * Endpoint encargado de registrar a un nuevo usuario.
+     *
+     * @param player
+     * @return ResponseEntity<Void>
+     */
     @PostMapping(path = "/players")
     public ResponseEntity<Void> registerPlayer(
             @Valid @RequestBody PlayerDto player
@@ -33,6 +39,13 @@ public class PlayerController {
         }
     }
 
+    /**
+     * Endpoint encargado de iniciar sesión con el email y la contraseña del usuario registrado en la BBDD.
+     *
+     * @param email
+     * @param password
+     * @return ResponseEntity<PlayerDto>
+     */
     @GetMapping(path = "/players")
     public ResponseEntity<PlayerDto> loginPlayer(
             @RequestParam(value = "email", required = true) String email,
@@ -46,6 +59,13 @@ public class PlayerController {
         }
     }
 
+    /**
+     * Endpoint encargado de obtener el usuario buscándolo a través del email
+     * (para no tener la contraseña circulando por distintas pantallas y asi tener mayor seguridad).
+     *
+     * @param playerEmail
+     * @return ResponseEntity<PlayerDto>
+     */
     @GetMapping("/players/{playerEmail}")
     public ResponseEntity<PlayerDto> getPlayerByEmail(
             @PathVariable("playerEmail") String playerEmail
@@ -58,6 +78,17 @@ public class PlayerController {
         }
     }
 
+    /**
+     * Endpoint encargado de modificar los datos del usuario
+     * (salvo la contraseña, ya que habría que seguir otro proceso para cambiarla con seguridad).
+     *
+     * @param playerEmail
+     * @param name
+     * @param surnames
+     * @param username
+     * @param number
+     * @return ResponseEntity<Void>
+     */
     @PutMapping("/players/{playerEmail}")
     public ResponseEntity<Void> updatePlayer(
             @PathVariable("playerEmail") String playerEmail,
@@ -78,6 +109,13 @@ public class PlayerController {
         }
     }
 
+    /**
+     * Endpoint encargado de obtener los jugadores apuntados a un partido.
+     *
+     * @param latitude
+     * @param longitude
+     * @return ResponseEntity<List < PlayerDto>>
+     */
     @GetMapping("/players/{latitude}/{longitude}")
     public ResponseEntity<List<PlayerDto>> getPlayersByFootballMatch(
             @PathVariable(value = "latitude", required = true) double latitude,

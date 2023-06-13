@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.sql.Timestamp;
 
 @RestController
 public class FootballMatchController {
@@ -20,6 +19,13 @@ public class FootballMatchController {
     @Autowired
     private PlayerService playerService;
 
+    /**
+     * Endpoint encargado de obtener el partido creado en cierta pista (buscándolo por latitud y longitud)
+     *
+     * @param latitude
+     * @param longitude
+     * @return ResponseEntity<FootballMatchDto>
+     */
     @GetMapping(path = "/footballMatches/{latitude}/{longitude}")
     public ResponseEntity<FootballMatchDto> getFootbalMatch(
             @PathVariable(value = "latitude", required = true) double latitude,
@@ -33,6 +39,12 @@ public class FootballMatchController {
         }
     }
 
+    /**
+     * Endpoint encargado de crear un partido nuevo.
+     *
+     * @param footballMatchDto
+     * @return ResponseEntity<Void>
+     */
     @PostMapping(path = "/footballMatches")
     public ResponseEntity<Void> createFootballMatch(
             @Valid @RequestBody FootballMatchDto footballMatchDto
@@ -44,6 +56,14 @@ public class FootballMatchController {
         }
     }
 
+    /**
+     * Endpoint encargado de vincular a un jugador con un partido ya creado.
+     *
+     * @param latitude
+     * @param longitude
+     * @param playerEmail
+     * @return ResponseEntity<Void>
+     */
     @PutMapping("/footballMatches/{latitude}/{longitude}")
     public ResponseEntity<Void> joinPlayerToFootbalMatch(
             @PathVariable(value = "latitude", required = true) double latitude,

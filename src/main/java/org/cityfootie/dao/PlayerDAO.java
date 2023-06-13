@@ -13,6 +13,4 @@ public interface PlayerDAO extends JpaRepository<Player, Integer> {
     boolean existsByUsername(String username);
 
     Player findByEmail(String playerEmail);
-
-    Player findByNumber(int number);
 }
