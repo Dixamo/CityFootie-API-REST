@@ -55,7 +55,7 @@ public class PlayerService {
      */
     public boolean updatePlayer(Player toUpdatePlayer, String name, String surnames, String username, int number) {
         if (!toUpdatePlayer.getUsername().equalsIgnoreCase(username)) {
-            if (!playerDAO.existsByUsername(username)) {
+            if (!playerDAO.existsByUsername(username.toLowerCase())) {
                 toUpdatePlayer.setName(name);
                 toUpdatePlayer.setSurnames(surnames);
                 toUpdatePlayer.setUsername(username.toLowerCase());
